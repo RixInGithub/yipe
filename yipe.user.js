@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         yipe
-// @version      6
+// @version      7
 // @description  an userscript which adds the brand new "yipe" block in snap
 // @author       RixTheTyrunt
 // @match        https://snap.berkeley.edu/snap/snap.html
@@ -9,7 +9,7 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
+!function() {
 	var __RUNYIPE__ = function(ide) {
 		console.log(ide)
 		if (ide.currentSprite.blocks.yipe) return // we aint want multiple yipes rolling around here
@@ -113,4 +113,4 @@
 		__open.call(this,w)
 		__RUNYIPE__(this)
 	}
-})()
+}()
