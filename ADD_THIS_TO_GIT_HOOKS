@@ -1,0 +1,14 @@
+#!/bin/sh
+# .git/hooks/pre-push
+
+CURRENT_VERSION=$(grep -oP '^//\s*@version\s*\K\d+$' yipe.user.js)
+
+if [[ -z "$CURRENT_VERSION" ]]; then
+	echo "current version not found"
+	exit 1
+fi
+NEW_VERSION=$((CURRENT_VERSION + 1))
+sed -i "3s|\([[:space:]]*@version[[:space:]]*\)[0-9]\+|\1$NEW_VERSION|" yipe.user.js
+git add yipe.user.js
+git commit --amend --no-edit
+exit 0
