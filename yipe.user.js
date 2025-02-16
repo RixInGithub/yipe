@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         yipe
-// @version      4
+// @version      5
 // @description  an userscript which adds the brand new "yipe" block in snap
 // @author       RixTheTyrunt
 // @match        https://snap.berkeley.edu/snap/snap.html
 // @updateURL    https://rixingithub.github.io/yipe/yipe.user.js
 // @downloadURL  https://rixingithub.github.io/yipe/yipe.user.js
 // @grant        none
+// @run-at       document-end
 // ==/UserScript==
 
 (function() {
