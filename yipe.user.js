@@ -1,15 +1,17 @@
 // ==UserScript==
 // @name         yipe
-// @version      2
+// @version      3
 // @description  an userscript which adds the brand new "yipe" block in snap
 // @author       RixTheTyrunt
 // @match        https://snap.berkeley.edu/snap/snap.html
 // @updateURL    https://rixingithub.github.io/yipe/yipe.user.js
 // @downloadURL  https://rixingithub.github.io/yipe/yipe.user.js
 // @grant        none
+// @run-at       document-body
 // ==/UserScript==
 
 !function() {
+	console.log(window, world)
 	if (world.children[0].currentSprite.blocks.yipe) return // we aint want multiple yipes rolling around here
 	var pCol = world.children[0].palette.color
 	var p = world.children[0].palette
