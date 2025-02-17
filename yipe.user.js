@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         yipe
-// @version      7
+// @version      8
 // @description  an userscript which adds the brand new "yipe" block in snap
 // @author       RixTheTyrunt
 // @match        https://snap.berkeley.edu/snap/snap.html
@@ -30,23 +30,22 @@
 			return r
 		}
 		var orig2 = SpriteMorph.prototype.blockTemplates
-		SpriteMorph.prototype.blockTemplates = function(...a) {
-			function block(b, c) {
-				if ((StageMorph.prototype.hiddenPrimitives[b]) && (!(a.reverse()[0]))) {
-					return null
-				}
-				var d = SpriteMorph.prototype.blockForSelector(b, true)
-				d.isDraggable = false
-				d.isTemplate = true
-				if (c) d.ghost()
-				return d
+		var yipeTemp
+		function makeYipe() { // "cache" yipe template
+			if (!(yipeTemp)) {
+				yipeTemp = SpriteMorph.prototype.blockForSelector("yipe", true)
+				yipeTemp.isDraggable = false
+				yipeTemp.isTemplate = true
 			}
+			return yipeTemp
+		}
+		SpriteMorph.prototype.blockTemplates = function(...a) {
 			var r = orig2.apply(this, a)
 			if (a[0]!="operators") return r
 			var varIdIdx = r.findIndex(function(a){return"reportVariadicIsIdentical"==a.selector})
 			var r0 = r.slice(0, varIdIdx+1)
 			var r1 = r.slice(varIdIdx+1)
-			return r0.concat(["-", block("yipe"), "-"], r1)
+			return r0.concat(["-",((StageMorph.prototype.hiddenPrimitives.yipe)&&(!(a.reverse()[0])))?null:makeYipe),"-"],r1)
 		}
 		var lF
 		Process.prototype.yipe = function __YIPEFUNC__(a) {
