@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         yipe
-// @version      9
+// @version      10
 // @description  an userscript which adds the brand new "yipe" block in snap
 // @author       RixTheTyrunt
 // @match        https://snap.berkeley.edu/snap/snap.html
@@ -29,9 +29,10 @@
 			}
 			return r
 		}
+		SpriteMorph.prototype.blocks = SpriteMorph.prototype.primitiveBlocks() // immediately patch in yipe
 		var orig2 = SpriteMorph.prototype.blockTemplates
 		var yipeTemp
-		function makeYipe() { // "cache" yipe template
+		function makeYipe() { // "cache" yipe template block
 			if (!(yipeTemp)) {
 				yipeTemp = SpriteMorph.prototype.blockForSelector("yipe", true)
 				yipeTemp.isDraggable = false
