@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         yipe
-// @version      8
+// @version      9
 // @description  an userscript which adds the brand new "yipe" block in snap
 // @author       RixTheTyrunt
 // @match        https://snap.berkeley.edu/snap/snap.html
@@ -45,7 +45,7 @@
 			var varIdIdx = r.findIndex(function(a){return"reportVariadicIsIdentical"==a.selector})
 			var r0 = r.slice(0, varIdIdx+1)
 			var r1 = r.slice(varIdIdx+1)
-			return r0.concat(["-",((StageMorph.prototype.hiddenPrimitives.yipe)&&(!(a.reverse()[0])))?null:makeYipe),"-"],r1)
+			return r0.concat(["-",((StageMorph.prototype.hiddenPrimitives.yipe)&&(!(a.reverse()[0])))?null:makeYipe(),"-"],r1)
 		}
 		var lF
 		Process.prototype.yipe = function __YIPEFUNC__(a) {
