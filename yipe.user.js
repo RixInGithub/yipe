@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name yipe
-// @version 12
+// @version 13
 // @description an userscript which adds the brand new "yipe" block in snap
 // @author RixTheTyrunt
 // @match https://snap.berkeley.edu/snap/snap.html
@@ -117,8 +117,9 @@
 				"reallygut"
 			])
 		}
-		// ide.refreshIDE()
+		ide.refreshIDE() // i assume we need this for ff too
 	}
+	if ((world) && (world.childThatIsA(IDE_Morph))) return __RUNYIPE__(world.childThatIsA(IDE_Morph)) // shit, we're late into the party
 	var __open = IDE_Morph.prototype.openIn
 	IDE_Morph.prototype.openIn = function(w) {
 		__open.call(this,w)
