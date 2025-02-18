@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         yipe
-// @version      10
+// @version      11
 // @description  an userscript which adds the brand new "yipe" block in snap
 // @author       RixTheTyrunt
 // @match        https://snap.berkeley.edu/snap/snap.html
@@ -15,22 +15,26 @@
 		if (ide.currentSprite.blocks.yipe) return // we aint want multiple yipes rolling around here
 		var pCol = ide.palette.color
 		var p = ide.palette
-		var orig1 = SpriteMorph.prototype.primitiveBlocks
-		SpriteMorph.prototype.primitiveBlocks = function() {
-			var r = orig1.call(this)
-			r.yipe = {
-				type: "command",
-				category: "operators",
-				spec: "yipe %yipe",
-				defaults: [
-					["42"]
-				],
-				code: "yipe"
-			}
-			return r
+		var yipeBlk = {
+			type: "command",
+			category: "operators",
+			spec: "yipe %yipe",
+			defaults: [
+				["42"]
+			],
+			code: "yipe"
 		}
-		SpriteMorph.prototype.blocks = SpriteMorph.prototype.primitiveBlocks() // immediately patch in yipe
-		var orig2 = SpriteMorph.prototype.blockTemplates
+		function blkUpdater(m) {
+			var orig = m.prototype.primitiveBlocks
+			m.prototype.primitiveBlocks = function() {
+				var r = orig.call(this)
+				r.yipe = yipeBlk
+				return r
+			}
+			m.prototype.blocks = m.prototype.primitiveBlocks() // immediately patch in yipe
+		}
+		blkUpdater(SpriteMorph)
+		blkUpdater(StageMorph)
 		var yipeTemp
 		function makeYipe() { // "cache" yipe template block
 			if (!(yipeTemp)) {
@@ -40,14 +44,20 @@
 			}
 			return yipeTemp
 		}
-		SpriteMorph.prototype.blockTemplates = function(...a) {
-			var r = orig2.apply(this, a)
-			if (a[0]!="operators") return r
-			var varIdIdx = r.findIndex(function(a){return"reportVariadicIsIdentical"==a.selector})
-			var r0 = r.slice(0, varIdIdx+1)
-			var r1 = r.slice(varIdIdx+1)
-			return r0.concat(["-",((StageMorph.prototype.hiddenPrimitives.yipe)&&(!(a.reverse()[0])))?null:makeYipe(),"-"],r1)
+		function tmplUpdater(m) {
+			var orig = m.prototype.blockTemplates
+			m.prototype.blockTemplates = function(...a) {
+				var r = orig.apply(this, a)
+				if (a[0]!="operators") return r
+				var varIdIdx = r.findIndex(function(a){return"reportVariadicIsIdentical"==a.selector})
+				if (varIdIdx == -1) return r
+				var r0 = r.slice(0, varIdIdx+1)
+				var r1 = r.slice(varIdIdx+1)
+				return r0.concat(["-",((StageMorph.prototype.hiddenPrimitives.yipe)&&(!(a.reverse()[0])))?null:makeYipe(),"-"],r1)
+			}
 		}
+		tmplUpdater(SpriteMorph)
+		tmplUpdater(StageMorph)
 		var lF
 		Process.prototype.yipe = function __YIPEFUNC__(a) {
 			console.log(a)
