@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name         yipe
-// @version      11
-// @description  an userscript which adds the brand new "yipe" block in snap
-// @author       RixTheTyrunt
-// @match        https://snap.berkeley.edu/snap/snap.html
-// @updateURL    https://rixingithub.github.io/yipe/yipe.user.js
-// @downloadURL  https://rixingithub.github.io/yipe/yipe.user.js
-// @grant        none
+// @name yipe
+// @version 12
+// @description an userscript which adds the brand new "yipe" block in snap
+// @author RixTheTyrunt
+// @match https://snap.berkeley.edu/snap/snap.html
+// @updateURL https://rixingithub.github.io/yipe/yipe.user.js
+// @downloadURL https://rixingithub.github.io/yipe/yipe.user.js
+// @grant none
 // ==/UserScript==
 
 !function() {
@@ -26,6 +26,7 @@
 		}
 		function blkUpdater(m) {
 			var orig = m.prototype.primitiveBlocks
+			console.log(m.prototype.primitiveBlocks, orig)
 			m.prototype.primitiveBlocks = function() {
 				var r = orig.call(this)
 				r.yipe = yipeBlk
@@ -34,7 +35,7 @@
 			m.prototype.blocks = m.prototype.primitiveBlocks() // immediately patch in yipe
 		}
 		blkUpdater(SpriteMorph)
-		blkUpdater(StageMorph)
+		// blkUpdater(StageMorph)
 		var yipeTemp
 		function makeYipe() { // "cache" yipe template block
 			if (!(yipeTemp)) {
